@@ -6,21 +6,74 @@
 
 <h3>Consulta de Tickets</h3>
 
+<div class="input-group mb-2">
+    <input type="number" class="form-control" placeholder="Introduce un número para filtrar por: " id="filtroNumero">
+     <div class="input-group-append">
+        <button @onclick="BuscarId" class="btn btn-outline-secondary">Buscar Por Id</button>
+        <button @onclick="BuscarTodo" class="btn btn-outline-secondary">Buscar Todo</button>
+        <button>Nada</button>
+    </div>
+</div>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>Ticket#</th>
+            <th>Cliente#</th>
+            <th>Del Sistema</th> 
+            <th>#Prioridad</th>
+            <th>Fecha</th>
+            <th>Solicitado Por</th>
+            <th>Asunto</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tickets in tickets)
+        {
+            <tr>
+                <td>@tickets.TicketsId</td>
+                <td>@tickets.ClientesId</td>
+                <td>@tickets.SistemaId</td>
+                <td>@tickets.PrioridadId</td>
+                <td>@tickets.Fecha</td>
+                <td>@tickets.SolicitadoPor</td>
+                <td>@tickets.Asunto</td>
+                <td>@tickets.Descripcion</td>
+                <td>
+                    <button @onclick="() => EiminarTicket(tickets.TicketsId)" class="btn btn-danger btn-sm">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 @code {
 
-	private List<Tickets> tickets = new List<Tickets>();
+    private List<Tickets> tickets = new List<Tickets>();
+    public TicketsBLL ticketbll { get; set; }
 
-	string Mensaje = "";
+    string Mensaje = "";
 
-	private void EiminarTicket(int ticketsId)
-	{
-		var ticketsDelete = tickets.FirstOrDefault(t => t.TicketsId == ticketsId);
+    private void EiminarTicket(int ticketsId)
+    {
+        var ticketsDelete = tickets.FirstOrDefault(t => t.TicketsId == ticketsId);
 
-		if(ticketsDelete != null)
-		{
-			tickets.Remove(ticketsDelete);
-		}
-	}
+        if (ticketsDelete != null)
+        {
+            bool eliminacionExitosa = ticketbll.Eliminar(ticketsDelete);
+
+            if (eliminacionExitosa)
+            {
+                tickets.Remove(ticketsDelete);
+                Mensaje = "Se elimino el ticket correctamente";
+            }
+            else
+            {
+                Mensaje = "Falla a la hora de eliminar el ticket";
+            }
+        }
+    }
 
 	private void BuscarTodo()
 	{
@@ -32,7 +85,7 @@
 
 	private void BuscarId()
 	{
-		this.tickets = ticketsBll.BuscarPorId(TicketsId);
+		this.tickets = ticketsBll.BuscarPorTicketId(TicketsId);
 	}
 
 

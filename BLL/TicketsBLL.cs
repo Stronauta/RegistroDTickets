@@ -9,7 +9,7 @@ namespace RegistroDTickets.BLL
 {
     public class TicketsBLL
     {
-        public Contexto _contexto;
+        private readonly Contexto _contexto;
 
         public TicketsBLL(Contexto contexto)
         {
@@ -62,10 +62,28 @@ namespace RegistroDTickets.BLL
                 .ToList();
         }
 
-        public List<Tickets> BuscarPorId(int ticketId)
+        public List<Tickets> BuscarPorTicketId(int ticketId)
         {
             return _contexto.Tickets.AsNoTracking()
                 .Where(t => t.TicketsId == ticketId).ToList();
+        }
+
+        public List<Tickets> BuscarPorSistemaId(int sistemaId)
+        {
+            return _contexto.Tickets.AsNoTracking()
+                .Where(s => s.SistemaId == sistemaId).ToList();
+        }
+
+        public List<Tickets> BuscarPorClienteId(int clienteId)
+        {
+            return _contexto.Tickets.AsNoTracking()
+                .Where(c => c.ClientesId == clienteId).ToList();
+        }
+
+        public List<Tickets> BuscarPorPrioridadId(int prioridadId)
+        {
+            return _contexto.Tickets.AsNoTracking()
+                .Where(p => p.PrioridadId == prioridadId).ToList();
         }
     }
 }
