@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RegistroDTickets.Models
 {
-    public class Clientes
+    public class Tickets
     {
         [Key]
-        public int ClientesId { get; set; }
         public int TicketsId { get; set; }
+        public int ClientesId { get; set; }
         public int SistemaId { get; set; }
         public int PrioridadId { get; set; }
         public string Nombres { get; set; }
