@@ -1,5 +1,4 @@
-﻿using RegistroDTickets.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RegistroDTickets.Models
 {
@@ -10,11 +9,11 @@ namespace RegistroDTickets.Models
         public int ClientesId { get; set; }
         public int SistemaId { get; set; }
         public int PrioridadId { get; set; }
-        public string Nombres { get; set; }
-        public int Telefono { get; set; }
-        public int Celular { get; set; }
-        public int Rnc { get; set; }
-        public string Gmail { get; set; }
-        public string Direccion { get; set; }
+        public DateTime Fecha { get; set; } = DateTime.Today;
+        public string SolicitadoPor { get; set; }
+        public string Asunto { get; set; }
+        public string Descripcion { get; set; }
+
+
     }
 }

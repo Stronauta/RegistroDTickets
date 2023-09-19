@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using RegistroDTickets.BLL;
 using RegistroDTickets.DAL;
 
 namespace RegistroDTickets
@@ -13,8 +14,11 @@ namespace RegistroDTickets
 
             var ConStr = builder.Configuration.GetConnectionString("ConStr");
 
+
             builder.Services.AddDbContext<Contexto>(options =>
             options.UseSqlite(ConStr));
+
+            builder.Services.AddScoped<TicketsBLL>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();

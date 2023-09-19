@@ -5,7 +5,7 @@ namespace RegistroDTickets.DAL
 {
     public class Contexto: DbContext
     {
-        public DbSet<Tickets> Clientes { get; set; }
+        public DbSet<Tickets> Tickets { get; set; }
 
         public Contexto(DbContextOptions <Contexto> options): base(options)
         {
