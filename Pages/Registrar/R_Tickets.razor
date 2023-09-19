@@ -1,0 +1,87 @@
+﻿@page "/RegistroTickets"
+@page "/RegistroTickets/{TicketsId:int}"
+@inject TicketsBLL ticketBll
+@using RegistroDTickets.BLL;
+
+<PageTitle>Registro de Tickets </PageTitle>
+
+
+<h3>Registro de Tickets</h3>
+
+
+<p>@Mensaje</p>
+
+@code {
+    [Parameter]
+    public int TicketsId { get; set; }
+    public Tickets tickets { get; set; }
+
+    private string Mensaje = ""; // para mostrar un mensaje
+    private List<Tickets> L_tickets = new List<Tickets>();
+
+    public bool TicketIdRepe = false;
+    public bool SistemaIdRepe = false;
+    public bool PrioriIdRpe = false;
+
+    protected override void OnInitialized()
+    {
+        if(TicketsId > 0)
+        {
+            this.tickets.TicketsId = TicketsId;
+            this.Buscar();
+        }
+    }
+
+    void Buscar()
+    {
+        var ticketEncontrado = ticketBll.Buscar(tickets.TicketsId);
+        if(ticketEncontrado != null)
+        {
+            this.tickets = ticketEncontrado;
+        }
+        else
+        {
+            this.tickets = new Tickets();
+
+            Mensaje = "No se encontro ningun ticket";
+        }
+
+    }
+
+    void Nuevo()
+    {
+        this.tickets = new Tickets();
+    }
+
+
+    public bool Validar()
+    {
+        TicketIdRepe = ticketBll.GetList(t => t.TicketsId == tickets.TicketsId).Any();
+        SistemaIdRepe = ticketBll.GetList(s => s.SistemaId == tickets.SistemaId).Any();
+        PrioriIdRpe = ticketBll.GetList(P => P.PrioridadId == tickets.PrioridadId).Any();
+
+
+        return TicketIdRepe || SistemaIdRepe || PrioriIdRpe;
+    }
+
+    void Guardar()
+    {
+        if (!Validar())
+        {
+            Mensaje = "Se guardo el ticket correctamente";
+            return;
+        }
+
+        if (ticketBll.Guardar(this.tickets))
+            this.Nuevo();
+    }
+
+    void Eliminar()
+    {
+        if (ticketBll.Eliminar(tickets))
+            Mensaje = "El ticket fue eliminado";
+        else
+            Mensaje = "No se pudo eliminar el ticket";
+        this.tickets = new Tickets();
+    }
+}

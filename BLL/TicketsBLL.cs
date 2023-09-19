@@ -9,7 +9,7 @@ namespace RegistroDTickets.BLL
 {
     public class TicketsBLL
     {
-        private Contexto _contexto;
+        public Contexto _contexto;
 
         public TicketsBLL(Contexto contexto)
         {
@@ -60,6 +60,12 @@ namespace RegistroDTickets.BLL
             return _contexto.Tickets.AsNoTracking()
                 .Where(expression)
                 .ToList();
+        }
+
+        public List<Tickets> BuscarPorId(int ticketId)
+        {
+            return _contexto.Tickets.AsNoTracking()
+                .Where(t => t.TicketsId == ticketId).ToList();
         }
     }
 }

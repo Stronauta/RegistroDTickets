@@ -1,0 +1,40 @@
+﻿@page "/ConsultaTickets"
+@inject TicketsBLL ticketsBll
+
+
+<PageTitle>Consulta de Tickets</PageTitle>
+
+<h3>Consulta de Tickets</h3>
+
+@code {
+
+	private List<Tickets> tickets = new List<Tickets>();
+
+	string Mensaje = "";
+
+	private void EiminarTicket(int ticketsId)
+	{
+		var ticketsDelete = tickets.FirstOrDefault(t => t.TicketsId == ticketsId);
+
+		if(ticketsDelete != null)
+		{
+			tickets.Remove(ticketsDelete);
+		}
+	}
+
+	private void BuscarTodo()
+	{
+		this.tickets = ticketsBll.GetList(t => true);
+	}
+
+	[Parameter]
+	public int TicketsId { get; set; }
+
+	private void BuscarId()
+	{
+		this.tickets = ticketsBll.BuscarPorId(TicketsId);
+	}
+
+
+
+}
