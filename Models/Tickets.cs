@@ -9,10 +9,10 @@ namespace RegistroDTickets.Models
         public int ClientesId { get; set; }
         public int SistemaId { get; set; }
         public int PrioridadId { get; set; }
-        public DateTime Fecha { get; set; } = DateTime.Today;
-        public string SolicitadoPor { get; set; }
-        public string Asunto { get; set; }
-        public string Descripcion { get; set; }
+        public DateTime Fecha { get; set; } = DateTime.Now;
+        public string? SolicitadoPor { get; set; }
+        public string? Asunto { get; set; }
+        public string? Descripcion { get; set; }
 
 
     }

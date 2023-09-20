@@ -14,45 +14,47 @@
     <div class="form-group">
         <label for="TicketsId">Ticket ID:</label>
         <div class="input-group">
-            <input type="number" name="TicketsId" class="form-control" id="TicketsId" min="1" required>
+            <InputNumber @bind-Value="tickets.TicketsId" type="number" name="TicketsId" class="form-control" id="TicketsId" min="1" required />
         </div>
     </div>
 
     <div class="form-group">
         <label for="ClientesId">ID de Cliente:</label>
         <div class="input-group">
-            <input type="number" name="ClientesId" class="form-control" id="ClientesId" min="1" required>
+            <InputNumber @bind-Value="tickets.ClientesId" type="number" name="ClientesId" class="form-control" id="ClientesId" min="1" required />
         </div>
     </div>
 
     <div class="form-group">
         <label for="SistemaId">ID del Sistema:</label>
-        <input type="number" name="SistemaId" class="form-control" id="SistemaId" placeholder="Especifica en cual de los 4 sistema se encuentra" min="1" max="4" required>
+        <InputNumber @bind-Value="tickets.SistemaId" type="number" name="SistemaId" class="form-control" id="SistemaId" 
+            placeholder="Especifica en cual de los 4 sistema se encuentra" min="1" max="4" required />
     </div>
 
     <div class="form-group">
         <label for="PrioridadId">ID de Prioridad:</label>
-        <input type="number" name="PrioridadId" class="form-control" id="PrioridadId" min="1" required>
+        <InputNumber @bind-Value="tickets.PrioridadId" type="number" name="PrioridadId" class="form-control" id="PrioridadId" min="1" required />
     </div>
 
     <div class="form-group">
         <label for="Fecha">Fecha:</label>
-        <input type="date" name="Fecha" class="form-control" id="Fecha" value="<?php echo date('Y-m-d'); ?>" required>
+        <InputDate @bind-Value="tickets.Fecha" class="form-control" id="Fecha" required />
     </div>
 
     <div class="form-group">
         <label for="SolicitadoPor">Solicitado Por:</label>
-        <input type="text" name="SolicitadoPor" class="form-control" placeholder="Nombre de la persona" id="SolicitadoPor" required>
+        <InputText @bind-Value="tickets.SolicitadoPor" type="text" name="SolicitadoPor" class="form-control" 
+            placeholder="Nombre de la persona" id="SolicitadoPor" required/>
     </div>
 
     <div class="form-group">
         <label for="Asunto">Asunto:</label>
-        <input type="text" name="Asunto" class="form-control" id="Asunto" required>
+        <InputText @bind-Value="tickets.Asunto" type="text" name="Asunto" class="form-control" id="Asunto" required />
     </div>
 
     <div class="form-group">
         <label for="Descripcion">Descripción:</label>
-        <textarea name="Descripcion" class="form-control" id="Descripcion" rows="3" required></textarea>
+        <InputTextArea @bind-Value="tickets.Descripcion" name="Descripcion" class="form-control" id="Descripcion" rows="3" required></InputTextArea >
     </div>
 
     <button type="submit" @onclick="Guardar" class="btn btn-primary">Guardar</button>
@@ -103,7 +105,7 @@
     }
 
 
-    public bool Validar()
+    public bool EsInvalido()
     {
         TicketIdRepe = ticketBll.GetList(t => t.TicketsId == tickets.TicketsId).Any();
         SistemaIdRepe = ticketBll.GetList(s => s.SistemaId == tickets.SistemaId).Any();
@@ -116,15 +118,23 @@
 
     void Guardar()
     {
-        if (!Validar())
+        if (!EsInvalido())
         {
             Mensaje = "Se guardo el ticket correctamente";
             return;
         }
 
         if (ticketBll.Guardar(this.tickets))
+        {
+            Mensaje = "Se guardo el ticket correctamente";
             this.Nuevo();
+        }
+        else
+        {
+            Mensaje = "Error al guardar el ticket";
+        }
     }
+
 
     void Eliminar()
     {
